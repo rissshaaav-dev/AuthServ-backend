@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import connectDB from "./configs/db.config.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -20,6 +21,13 @@ app.get("/api", (_, res) => {
   res.send("Hello World!");
 });
 
-app.listen(PORT, () => {
-  console.log(`AuthServ API is running on port ${PORT}🚀`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on PORT ${PORT} 🚀`);
+    });
+  })
+  .catch((err) => {
+    console.error("Error connecting to the database ❌:", err.message);
+    process.exit(1);
+  });
