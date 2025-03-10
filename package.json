@@ -1,0 +1,20 @@
+{
+  "name": "authserv-backend",
+  "version": "1.0.0",
+  "description": "Backend for AuthServ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --env-file .env index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rissshaaav-dev/AuthServ-backend.git"
+  },
+  "author": "https://github.com/rissshaaav-dev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rissshaaav-dev/AuthServ-backend/issues"
+  },
+  "homepage": "https://github.com/rissshaaav-dev/AuthServ-backend#readme"
+}
