@@ -1,6 +1,7 @@
 {
   "name": "authserv-backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "Backend for AuthServ",
   "main": "index.js",
   "scripts": {
@@ -16,5 +17,16 @@
   "bugs": {
     "url": "https://github.com/rissshaaav-dev/AuthServ-backend/issues"
   },
-  "homepage": "https://github.com/rissshaaav-dev/AuthServ-backend#readme"
+  "homepage": "https://github.com/rissshaaav-dev/AuthServ-backend#readme",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
 }
