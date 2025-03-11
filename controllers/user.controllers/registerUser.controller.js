@@ -35,7 +35,7 @@ const registerUserController = async (req, res, next) => {
         // Send the response
         res.status(201).json(responseUser);
     } catch (error) {
-        console.error("registerUserController ", error);
+        error.place = "registerUserController";
         next(error);
     }
 };
