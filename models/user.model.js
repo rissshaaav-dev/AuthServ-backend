@@ -29,12 +29,21 @@ const userSchema = new mongoose.Schema(
             clientId: {
                 type: String,
                 required: true,
+                index: true,
+                unique: true,
             },
             clientSecret: {
                 type: String,
                 required: true,
+                unique: true,
             },
         },
+        projects: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Project",
+            },
+        ],
     },
     { timestamps: true }
 );
@@ -46,11 +55,12 @@ userSchema.pre("save", async function (next) {
         }
 
         if (!this.credentials.clientId) {
-            this.credentials.clientId = nanoid(8);
+            this.credentials.clientId = nanoid(12);
         }
 
         if (!this.credentials.clientSecret) {
-            const uniqueSecret = crypto.randomBytes(8).toString("hex");
+            const uniqueSecret = crypto.randomBytes(32).toString("hex"); 
+            this._unhashedSecret = uniqueSecret;
             this.credentials.clientSecret = await bcrypt.hash(uniqueSecret, 10);
         }
 
@@ -63,6 +73,20 @@ userSchema.pre("save", async function (next) {
 userSchema.methods = {
     comparePassword: async function (password) {
         return await bcrypt.compare(password, this.password);
+    },
+    compareClientSecret: async function (secret) {
+        return await bcrypt.compare(secret, this.credentials.clientSecret);
+    },
+    regenerateClientSecret: async function () {
+        try {
+            const uniqueSecret = crypto.randomBytes(16).toString("hex");
+            this.credentials.clientSecret = await bcrypt.hash(uniqueSecret, 10);
+            await this.save();
+
+            return uniqueSecret;
+        } catch (error) {
+            throw new Error("Error while regenerating client secret.");
+        }
     },
 };
 
