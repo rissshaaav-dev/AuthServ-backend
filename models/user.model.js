@@ -28,13 +28,13 @@ const userSchema = new mongoose.Schema(
         credentials: {
             clientId: {
                 type: String,
-                required: true,
+                // required: true,
                 index: true,
                 unique: true,
             },
             clientSecret: {
                 type: String,
-                required: true,
+                // required: true,
                 unique: true,
             },
         },
@@ -59,7 +59,7 @@ userSchema.pre("save", async function (next) {
         }
 
         if (!this.credentials.clientSecret) {
-            const uniqueSecret = crypto.randomBytes(32).toString("hex"); 
+            const uniqueSecret = crypto.randomBytes(32).toString("hex");
             this._unhashedSecret = uniqueSecret;
             this.credentials.clientSecret = await bcrypt.hash(uniqueSecret, 10);
         }
