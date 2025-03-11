@@ -95,6 +95,7 @@ projectSchema.pre("save", async function (next) {
 
         if (!this.projectCredentials.projectSecret) {
             const uniqueSecret = crypto.randomBytes(16).toString("hex");
+            // this._unhashedSecret = uniqueSecret;
             this.projectCredentials.projectSecret = await bcrypt.hash(
                 uniqueSecret,
                 10
@@ -113,6 +114,19 @@ projectSchema.methods = {
             projectSecret,
             this.projectCredentials.projectSecret
         );
+    },
+    regenerateProjectSecret: async function () {
+        try {
+            const uniqueSecret = crypto.randomBytes(16).toString("hex");
+            this.projectCredentials.projectSecret = await bcrypt.hash(
+                uniqueSecret,
+                10
+            );
+            await this.save();
+            return uniqueSecret;
+        } catch (error) {
+            throw new Error(error);
+        }
     },
 };
 
