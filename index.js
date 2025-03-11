@@ -2,6 +2,8 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import connectDB from "./configs/db.config.js";
+import errorHandler from "./middlewares/errorHandler.middleware.js";
+import userRouter from "./routes/user.route.js";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -17,9 +19,9 @@ const limiter = rateLimit({
 
 app.use("/api", limiter);
 
-app.get("/api", (_, res) => {
-  res.send("Hello World!");
-});
+app.use("/api/user", userRouter)
+
+app.use(errorHandler);
 
 connectDB()
   .then(() => {
